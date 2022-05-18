@@ -3,7 +3,8 @@ import { useNavigate } from "react-router-dom";
 export default function NoteList() {
   const [notes, setNotes] = useState([]);
   const navigate = useNavigate();
-  const typeClass=[
+  const getClass=()=>{
+    const typeClass=[
         'card text-white bg-primary mb-3',
         'card text-white bg-secondary mb-3',
         'card text-white bg-success mb-3',
@@ -12,7 +13,9 @@ export default function NoteList() {
         'card text-dark bg-info mb-3',
         'card text-dark bg-light mb-3',
         'card text-white bg-dark mb-3',
-  ]
+    ]
+    return typeClass[Math.floor(Math.random()*typeClass.length)];
+  }
   const loadNotes = async () => {
     const response = await fetch("http://localhost:3000/api/notes");
     const data = await response.json();
@@ -28,12 +31,24 @@ export default function NoteList() {
     loadNotes();
   }, []);
   return (
-    <div className="container">
+    <div className="container"
+        style={{
+            display: "flex",
+            flexWrap: "wrap",
+            justifyContent: "center",
+        }}
+    >
       {notes.map((note,i) => (
-        <div key={note.id} className="card text-dark bg-light mb-3" style={{maxWidth: "18rem"}}>
-          <div className="card-header">Header</div>
+        <div key={i} 
+        className={getClass()} 
+        style={{
+            maxWidth: "18rem",
+            width:'200px',
+            margin:'10px',
+            height:'140px',
+        }}>
+          <div className="card-header">{note.title}</div>
           <div className="card-body">
-            <h5 className="card-title">{note.title}</h5>
             <p className="card-text">
               {note.description}
             </p>
