@@ -6,6 +6,10 @@ router.get('/',async(req,res)=>{
     console.log(note);
     res.json(note);
 });
+router.get('/:id',async(req,res)=>{
+    const note=await Note.findById(req.params.id);
+    res.json(note);
+});
 router.post('/new-note',async(req,res)=>{
     const {title,description}=req.body;
     const newNote=new Note({title,description});
